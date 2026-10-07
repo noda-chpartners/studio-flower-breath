@@ -1,8 +1,11 @@
 {
   "name": "Studio Flowers Breath",
   "short_name": "Flowers Breath",
+  "description": "茅ヶ崎市常盤町のフラワーショップ。花束、ウェディング、装花、レッスン。",
   "lang": "ja",
+  "id": "/",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f7f4ef",
   "theme_color": "#f7f4ef",

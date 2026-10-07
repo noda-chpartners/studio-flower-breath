@@ -27,11 +27,25 @@ const reveal = (targets: gsap.TweenTarget, trigger: Element | string, stagger = 
   );
 };
 
+const sleep = (ms: number) => new Promise((resolve) => window.setTimeout(resolve, ms));
+
+const whenReady = () =>
+  new Promise<void>((resolve) => {
+    const fonts = document.fonts?.ready.then(() => undefined) ?? Promise.resolve();
+    const loaded = new Promise<void>((done) => {
+      if (document.readyState === "complete") done();
+      else window.addEventListener("load", () => done(), { once: true });
+    });
+    void Promise.race([Promise.all([loaded, fonts]), sleep(2400)]).then(() => resolve());
+  });
+
 export function initMotion() {
   const header = document.querySelector<HTMLElement>("[data-header]");
   const toggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
   const nav = document.querySelector<HTMLElement>("[data-nav]");
+  const loader = document.querySelector<HTMLElement>("[data-loader]");
   let lenis: Lenis | null = null;
+  let loaderDone = false;
 
   const setScrolled = (y: number) => {
     header?.classList.toggle("is-scrolled", y > 8);
@@ -89,6 +103,8 @@ export function initMotion() {
   const mm = gsap.matchMedia();
 
   mm.add("(prefers-reduced-motion: reduce)", () => {
+    document.documentElement.classList.remove("is-loading");
+    loader?.remove();
     const onScroll = () => setScrolled(window.scrollY);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -113,15 +129,71 @@ export function initMotion() {
     gsap.ticker.add(ticker);
     gsap.ticker.lagSmoothing(0);
 
-    gsap.fromTo(
-      ".hero-in",
-      { opacity: 0, y: 28 },
-      { opacity: 1, y: 0, duration: 1.15, ease: "power3.out", stagger: 0.07, delay: 0.12 },
-    );
+    const playHero = () => {
+      gsap.fromTo(
+        ".hero-in",
+        { opacity: 0, y: 28 },
+        { opacity: 1, y: 0, duration: 1.15, ease: "power3.out", stagger: 0.07, delay: 0.08 },
+      );
 
-    const heroImage = document.querySelector(".hero__photo img");
-    if (heroImage) {
-      gsap.fromTo(heroImage, { scale: 1.08 }, { scale: 1, duration: 1.7, ease: "power2.out" });
+      const heroImage = document.querySelector(".hero__photo img");
+      if (heroImage) {
+        gsap.fromTo(heroImage, { scale: 1.08 }, { scale: 1, duration: 1.7, ease: "power2.out" });
+      }
+    };
+
+    const finishLoader = () => {
+      document.documentElement.classList.remove("is-loading");
+      loader?.remove();
+      lenis?.start();
+      ScrollTrigger.refresh();
+    };
+
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") exit();
+    };
+
+    const exit = () => {
+      if (loaderDone || !loader?.isConnected) return;
+      loaderDone = true;
+      intro.kill();
+      window.removeEventListener("keydown", onKey);
+      playHero();
+      gsap.to(loader, {
+        yPercent: -100,
+        duration: 1.15,
+        ease: "power4.inOut",
+        onComplete: finishLoader,
+      });
+    };
+
+    let intro = gsap.timeline();
+
+    if (loader) {
+      lenis.stop();
+      const started = performance.now();
+      intro = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+      intro
+        .fromTo(".loader__stem", { strokeDashoffset: 16 }, { strokeDashoffset: 0, duration: 0.9, ease: "power2.out" }, 0)
+        .from(".loader__leaf, .loader__bud", { opacity: 0, duration: 0.55, stagger: 0.1 }, 0.35)
+        .from(".loader__name span", { opacity: 0, y: 22, duration: 0.85, stagger: 0.08 }, 0.15)
+        .from(".loader__kana", { opacity: 0, y: 10, duration: 0.7 }, 0.55)
+        .fromTo(".loader__line", { scaleX: 0 }, { scaleX: 1, duration: 0.95, ease: "power2.inOut" }, 0.5);
+
+      const hold = async () => {
+        await whenReady();
+        const remain = 1700 - (performance.now() - started);
+        if (remain > 0) await sleep(remain);
+        exit();
+      };
+      void hold();
+
+      loader.addEventListener("click", exit);
+      window.addEventListener("keydown", onKey);
+      document.querySelector(".skip")?.addEventListener("click", exit);
+    } else {
+      playHero();
     }
 
     const heroZoom = document.querySelector(".hero__zoom");
@@ -190,6 +262,7 @@ export function initMotion() {
 
     return () => {
       window.removeEventListener("load", refresh);
+      window.removeEventListener("keydown", onKey);
       gsap.ticker.remove(ticker);
       lenis?.destroy();
       lenis = null;

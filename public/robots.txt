@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://studio-flower-breath.pages.dev/sitemap-index.xml

@@ -1,39 +1,7 @@
 ---
 import Photo from "./Photo.astro";
+import { site } from "../data/site";
 import seasonal from "../assets/images/seasonal-bouquet.jpg";
-
-const items = [
-  {
-    num: "01",
-    name: "季節の花束",
-    text: "その時期にいちばんきれいな花を、贈る相手に合わせて束ねます。",
-    price: "¥3,000〜",
-  },
-  {
-    num: "02",
-    name: "フラワーアレンジメント",
-    text: "ご自宅にも、贈り物にも。器や置く場所のご希望も伺います。",
-    price: "¥3,000〜",
-  },
-  {
-    num: "03",
-    name: "ウェディングブーケ",
-    text: "当日の装いと式の空気に合わせたブーケ、そして装花。",
-    price: "¥20,000〜",
-  },
-  {
-    num: "04",
-    name: "スタンド花・祝い花",
-    text: "開店、公演、お祝いの席へ。空間に届く花をお作りします。",
-    price: "¥5,000〜",
-  },
-  {
-    num: "05",
-    name: "ドライフラワー・リース等",
-    text: "乾いた花の束、スワッグ、リース。長くそばに置ける形で。",
-    price: "¥3,000〜",
-  },
-];
 ---
 
 <section class="section offer" id="offer">
@@ -60,7 +28,7 @@ const items = [
 
     <ol class="menu">
       {
-        items.map((item) => (
+        site.offers.map((item) => (
           <li class="menu__item">
             <span class="menu__num">{item.num}</span>
             <div class="menu__body">

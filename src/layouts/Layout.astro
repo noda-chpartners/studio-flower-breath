@@ -6,50 +6,117 @@ import { site } from "../data/site";
 interface Props {
   title?: string;
   description?: string;
+  noindex?: boolean;
+  loader?: boolean;
 }
 
-const { title = site.title, description = site.description } = Astro.props;
-const ogImage = Astro.site ? new URL("/ogp.jpg", Astro.site).href : "/ogp.jpg";
+const { title = site.title, description = site.description, noindex = false, loader = false } = Astro.props;
+const origin = Astro.site ?? new URL(site.url);
+const canonical = new URL(Astro.url.pathname, origin);
+const ogImage = new URL("/ogp.jpg", origin).href;
+const logo = new URL("/apple-touch-icon.png", origin).href;
+const home = new URL("/", origin).href;
+const shopId = new URL("/#shop", origin).href;
+const ogAlt = "アンスリウム、プロテア、バラを束ねたオーダーメイドの花束";
 
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Florist",
-  name: site.name,
-  alternateName: site.kana,
-  telephone: site.phoneDisplay,
-  paymentAccepted: site.payments.join("、"),
-  currenciesAccepted: "JPY",
-  address: {
-    "@type": "PostalAddress",
-    postalCode: "253-0032",
-    addressRegion: "神奈川県",
-    addressLocality: "茅ヶ崎市",
-    streetAddress: "常盤町3-4",
-    addressCountry: "JP",
-  },
-  openingHoursSpecification: [
+  "@graph": [
     {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-      opens: "11:00",
-      closes: "17:00",
+      "@type": "WebSite",
+      "@id": new URL("/#website", origin).href,
+      url: home,
+      name: site.name,
+      alternateName: site.kana,
+      description: site.description,
+      inLanguage: "ja",
+      publisher: { "@id": shopId },
+    },
+    {
+      "@type": "Florist",
+      "@id": shopId,
+      name: site.name,
+      alternateName: site.kana,
+      url: home,
+      image: ogImage,
+      logo,
+      description: site.description,
+      telephone: site.phoneDisplay,
+      currenciesAccepted: "JPY",
+      paymentAccepted: site.payments.join("、"),
+      priceRange: "¥3,000〜",
+      hasMap: site.mapLink,
+      address: {
+        "@type": "PostalAddress",
+        postalCode: "253-0032",
+        addressRegion: "神奈川県",
+        addressLocality: "茅ヶ崎市",
+        streetAddress: "常盤町3-4",
+        addressCountry: "JP",
+      },
+      areaServed: {
+        "@type": "City",
+        name: "茅ヶ崎市",
+        containedInPlace: {
+          "@type": "AdministrativeArea",
+          name: "神奈川県",
+        },
+      },
+      openingHoursSpecification: [
+        {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          opens: "11:00",
+          closes: "17:00",
+        },
+      ],
+      sameAs: [site.instagram, site.line],
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: "花と装花",
+        itemListElement: site.offers.map((offer, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          item: {
+            "@type": "Offer",
+            name: offer.name,
+            description: offer.text,
+            priceCurrency: "JPY",
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              priceCurrency: "JPY",
+              minPrice: offer.minPrice,
+            },
+          },
+        })),
+      },
     },
   ],
-  sameAs: [site.instagram, site.line],
 };
 ---
 
 <!doctype html>
 <html lang="ja">
   <head>
-    <script is:inline>
+    <script is:inline define:vars={{ showLoader: loader }}>
       document.documentElement.classList.add("js");
+      if (showLoader && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("is-loading");
+        window.setTimeout(function () {
+          document.documentElement.classList.remove("is-loading");
+        }, 7000);
+      }
     </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large"}
+    />
     <meta name="theme-color" content="#f7f4ef" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -58,15 +125,19 @@ const jsonLd = {
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ja_JP" />
     <meta property="og:site_name" content={site.name} />
+    <meta property="og:url" content={canonical.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:alt" content={ogAlt} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogAlt} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -77,11 +148,41 @@ const jsonLd = {
     <noscript>
       <style>
         .reveal, .hero-in, .pillar, .menu__item, .gallery__item, .scene { opacity: 1 !important; }
+        .loader { display: none !important; }
       </style>
     </noscript>
   </head>
   <body>
     <a class="skip" href="#main">本文へスキップ</a>
+    {
+      loader && (
+        <div class="loader" data-loader aria-hidden="true">
+          <div class="loader__inner">
+            <svg class="loader__mark" viewBox="0 0 32 32" aria-hidden="true">
+              <path
+                class="loader__stem"
+                d="M16 27.2V14.6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.4"
+                stroke-linecap="round"></path>
+              <path class="loader__leaf" d="M16 17.2c-.2-3.7-3.3-6.3-7.2-5.6 0 3.8 3 6.4 7.2 5.6Z" fill="currentColor"
+              ></path>
+              <path class="loader__leaf" d="M16.2 15.6c.5-3.6 3.8-6 7.4-5.1-.8 3.6-4 5.8-7.4 5.1Z" fill="#5F6B5C"
+              ></path>
+              <circle class="loader__bud" cx="16" cy="9.1" r="2.05" fill="currentColor"></circle>
+            </svg>
+            <p class="loader__name">
+              <span>Studio</span>
+              <span>Flowers</span>
+              <span>Breath</span>
+            </p>
+            <p class="loader__kana">{site.kana}</p>
+            <span class="loader__line" aria-hidden="true"></span>
+          </div>
+        </div>
+      )
+    }
     <slot />
     <script>
       import { initMotion } from "../scripts/motion";
