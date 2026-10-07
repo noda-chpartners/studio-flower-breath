@@ -12,7 +12,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.3.6"
+    "astro": "^7.3.6",
+    "gsap": "^3.15.0",
+    "lenis": "^1.3.26",
+    "sass": "^1.105.1"
   },
   "allowScripts": {
     "esbuild": true

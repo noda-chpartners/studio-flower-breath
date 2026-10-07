@@ -1,0 +1,38 @@
+---
+import { site } from "../data/site";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="wrap footer__grid">
+    <div>
+      <p class="footer__name">{site.name}</p>
+      <p class="footer__kana">{site.kana}</p>
+    </div>
+    <address>
+      <p>{site.postal} {site.address}</p>
+      <p>{site.hours} / {site.closed}定休（{site.closedNote}）</p>
+      <p><a class="phone" href={site.phoneHref}>{site.phoneDisplay}</a></p>
+    </address>
+    <ul class="footer__links">
+      <li>
+        <a href={site.instagram} target="_blank" rel="noopener noreferrer">
+          Instagram
+          <span class="sr-only">（新しいタブで開きます）</span>
+        </a>
+      </li>
+      <li>
+        <a href={site.line} target="_blank" rel="noopener noreferrer">
+          LINE
+          <span class="sr-only">（新しいタブで開きます）</span>
+        </a>
+      </li>
+      <li><a href="#contact">お問い合わせ</a></li>
+    </ul>
+  </div>
+  <div class="wrap footer__bottom">
+    <p>© {year} {site.name}</p>
+    <a href="#top">ページ上部へ</a>
+  </div>
+</footer>

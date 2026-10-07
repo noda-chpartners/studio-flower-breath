@@ -1,0 +1,77 @@
+---
+import Photo from "./Photo.astro";
+import { site } from "../data/site";
+import shop from "../assets/images/shop-front.jpg";
+---
+
+<section class="section visit" id="visit">
+  <div class="wrap visit__head reveal">
+    <p class="eyebrow">05 — Visit</p>
+    <h2>鉄砲通りの、<br />少し奥まった場所に。</h2>
+  </div>
+
+  <div class="wrap-wide visit__layout">
+    <figure class="visit__photo reveal">
+      <Photo
+        src={shop}
+        alt="ガーベラやカラーが並ぶ、Studio Flowers Breathの店先"
+        sizes="(min-width: 980px) 52vw, 100vw"
+        widths={[480, 800, 1086]}
+        class="visit__frame frame--hover pos-shop"
+      />
+      <figcaption>
+        <span lang="en">Shop</span>
+        <span>常盤町の店先</span>
+      </figcaption>
+    </figure>
+
+    <dl class="visit__info reveal">
+      <div>
+        <dt>住所</dt>
+        <dd>
+          {site.postal}<br />
+          {site.address}
+        </dd>
+      </div>
+      <div>
+        <dt>アクセス</dt>
+        <dd>
+          {site.access}<br />
+          {site.parking}
+        </dd>
+      </div>
+      <div>
+        <dt>営業時間</dt>
+        <dd>{site.hours}</dd>
+      </div>
+      <div>
+        <dt>定休日</dt>
+        <dd>
+          {site.closed}
+          <span class="visit__note">{site.closedNote}</span>
+        </dd>
+      </div>
+      <div>
+        <dt>お支払い</dt>
+        <dd>{site.payments.join("、")}</dd>
+      </div>
+      <div>
+        <dt>電話</dt>
+        <dd><a class="phone" href={site.phoneHref}>{site.phoneDisplay}</a></dd>
+      </div>
+    </dl>
+  </div>
+
+  <div class="wrap-wide visit__map reveal">
+    <iframe
+      title="Studio Flowers Breathの地図"
+      src={site.mapEmbed}
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    ></iframe>
+    <a class="link-line" href={site.mapLink} target="_blank" rel="noopener noreferrer">
+      Googleマップで開く
+      <span class="sr-only">（新しいタブで開きます）</span>
+    </a>
+  </div>
+</section>

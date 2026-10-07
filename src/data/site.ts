@@ -1,0 +1,22 @@
+export const site = {
+  name: "Studio Flowers Breath",
+  kana: "スタジオ フラワーズ ブレス",
+  title: "Studio Flowers Breath｜茅ヶ崎のフラワーショップ",
+  description:
+    "茅ヶ崎・常盤町のフラワーショップ。季節の花束、アレンジメント、ウェディング、店舗装花、レッスンまで。花のある暮らしを、その人らしく。",
+  phoneDisplay: "0467-57-4416",
+  phoneHref: "tel:0467574416",
+  postal: "〒253-0032",
+  address: "神奈川県茅ヶ崎市常盤町3-4",
+  hours: "11:00–17:00",
+  closed: "月曜日・火曜日",
+  closedNote: "臨時休業あり",
+  access: "JR辻堂駅より徒歩約20分。鉄砲通りから少し入った場所にあります。",
+  parking: "駐車場はございません。店前への一時停車は可能です。",
+  payments: ["現金", "クレジットカード", "各種キャッシュレス決済"],
+  instagram: "https://www.instagram.com/studioflo/",
+  instagramHandle: "@studioflo",
+  line: "https://lin.ee/rzW2R4c",
+  mapEmbed: `https://maps.google.com/maps?q=${encodeURIComponent("神奈川県茅ヶ崎市常盤町3-4 Studio Flowers Breath")}&hl=ja&z=16&output=embed`,
+  mapLink: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("Studio Flowers Breath 神奈川県茅ヶ崎市常盤町3-4")}`,
+} as const;

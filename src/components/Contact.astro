@@ -1,0 +1,42 @@
+---
+import { Image } from "astro:assets";
+import { site } from "../data/site";
+import lineQr from "../assets/images/line-qr.jpg";
+---
+
+<section class="section contact" id="contact">
+  <div class="wrap contact__grid">
+    <div class="contact__intro reveal">
+      <p class="eyebrow eyebrow--light">06 — Contact</p>
+      <h2>ご相談は、<br />お気軽に。</h2>
+      <p class="contact__lead">
+        花束のご注文、ウェディングや装花、レッスンのお問い合わせは、お電話またはLINEでお受けしています。
+      </p>
+      <a class="phone contact__phone" href={site.phoneHref}>{site.phoneDisplay}</a>
+      <p class="contact__hours">{site.hours} / {site.closed}定休</p>
+      <div class="contact__actions">
+        <a class="btn btn--light" href={site.line} target="_blank" rel="noopener noreferrer">
+          LINEを開く
+          <span class="sr-only">（新しいタブで開きます）</span>
+        </a>
+        <a class="btn btn--ghost-light" href={site.instagram} target="_blank" rel="noopener noreferrer">
+          Instagram
+          <span class="sr-only">（新しいタブで開きます）</span>
+        </a>
+      </div>
+    </div>
+
+    <figure class="contact__qr reveal">
+      <Image
+        src={lineQr}
+        alt="LINE公式アカウント、友だち募集中。IDは @882tulzf。友だち追加からIDを検索するか、QRコードをスキャンしてください。"
+        widths={[480, 720]}
+        sizes="(min-width: 980px) 320px, 88vw"
+        format="png"
+        layout="constrained"
+        width={720}
+        height={1280}
+      />
+    </figure>
+  </div>
+</section>

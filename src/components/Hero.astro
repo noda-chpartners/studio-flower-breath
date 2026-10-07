@@ -1,0 +1,48 @@
+---
+import Photo from "./Photo.astro";
+import { site } from "../data/site";
+import hero from "../assets/images/bouquet-editorial.jpg";
+---
+
+<section class="hero" id="top">
+  <div class="hero__copy">
+    <div class="hero__top">
+      <p class="hero-in eyebrow">Chigasaki Flower Studio</p>
+      <p class="hero-in hero__vert">花のある暮らしを、茅ヶ崎から</p>
+    </div>
+    <div class="hero__title">
+      <h1 class="display">
+        <span class="hero-in">Studio</span>
+        <span class="hero-in">Flowers</span>
+        <span class="hero-in">Breath</span>
+      </h1>
+      <p class="hero-in hero__kana">{site.kana}</p>
+      <p class="hero-in hero__lead">花のある暮らしを、<br />その人らしく。</p>
+    </div>
+    <div class="hero__bottom">
+      <ul class="hero-in hero__meta">
+        <li>{site.hours}</li>
+        <li>月曜・火曜定休</li>
+        <li>茅ヶ崎市常盤町</li>
+      </ul>
+      <a class="hero-in link-line" href="#concept">
+        読み進める
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 5v14M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="1.2"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+  <div class="hero__media">
+    <div class="hero__zoom">
+      <Photo
+        src={hero}
+        alt="アンスリウム、プロテア、バラを束ねたオーダーメイドの花束"
+        sizes="(min-width: 980px) 58vw, 100vw"
+        widths={[640, 960, 1280, 1440]}
+        class="hero__photo pos-bouquet"
+        priority
+      />
+    </div>
+  </div>
+</section>

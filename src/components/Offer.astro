@@ -1,0 +1,84 @@
+---
+import Photo from "./Photo.astro";
+import seasonal from "../assets/images/seasonal-bouquet.jpg";
+
+const items = [
+  {
+    num: "01",
+    name: "季節の花束",
+    text: "その時期にいちばんきれいな花を、贈る相手に合わせて束ねます。",
+    price: "¥3,000〜",
+  },
+  {
+    num: "02",
+    name: "フラワーアレンジメント",
+    text: "ご自宅にも、贈り物にも。器や置く場所のご希望も伺います。",
+    price: "¥3,000〜",
+  },
+  {
+    num: "03",
+    name: "ウェディングブーケ",
+    text: "当日の装いと式の空気に合わせたブーケ、そして装花。",
+    price: "¥20,000〜",
+  },
+  {
+    num: "04",
+    name: "スタンド花・祝い花",
+    text: "開店、公演、お祝いの席へ。空間に届く花をお作りします。",
+    price: "¥5,000〜",
+  },
+  {
+    num: "05",
+    name: "ドライフラワー・リース等",
+    text: "乾いた花の束、スワッグ、リース。長くそばに置ける形で。",
+    price: "¥3,000〜",
+  },
+];
+---
+
+<section class="section offer" id="offer">
+  <div class="wrap offer__head reveal">
+    <p class="eyebrow">02 — Flowers</p>
+    <h2>季節の花を、<br />必要な形に。</h2>
+    <p class="offer__intro">棚から選ぶことも、相談して一からつくることもできます。</p>
+  </div>
+
+  <div class="wrap offer__layout">
+    <figure class="offer__photo reveal">
+      <Photo
+        src={seasonal}
+        alt="ピンクと淡黄の花を、淡い紙で包んだ季節の花束"
+        sizes="(min-width: 980px) 40vw, 100vw"
+        widths={[400, 560, 675]}
+        class="offer__frame"
+      />
+      <figcaption>
+        <span lang="en">Bouquet</span>
+        <span>季節の花束</span>
+      </figcaption>
+    </figure>
+
+    <ol class="menu">
+      {
+        items.map((item) => (
+          <li class="menu__item">
+            <span class="menu__num">{item.num}</span>
+            <div class="menu__body">
+              <h3>{item.name}</h3>
+              <p>{item.text}</p>
+            </div>
+            <p class="menu__price">{item.price}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+
+  <p class="wrap offer__note reveal">
+    ガーデニングのご相談、花のレンタルも承ります。価格は花材・サイズ・季節により異なります。
+  </p>
+</section>
+
+<section class="pause" aria-label="ことば">
+  <p class="pause__text reveal">花を選ぶことは、<br />誰かの時間を想像すること。</p>
+</section>

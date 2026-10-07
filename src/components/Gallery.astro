@@ -1,0 +1,84 @@
+---
+import Photo from "./Photo.astro";
+import autumn from "../assets/images/autumn-arrangement.jpg";
+import birthday from "../assets/images/birthday-bouquet.jpg";
+import dried from "../assets/images/dried-bouquet.jpg";
+import preserved from "../assets/images/preserved-boxes.jpg";
+import swag from "../assets/images/dried-swag.jpg";
+
+const photos = [
+  {
+    src: autumn,
+    alt: "オレンジのダリアと枝ものを広げた、秋の空間装花",
+    en: "Space",
+    ja: "秋の装花",
+    widths: [480, 800, 1108],
+    tall: true,
+    pos: "pos-center",
+  },
+  {
+    src: birthday,
+    alt: "ダリアとプロテアを黒の紙で包んだ、誕生日の花束",
+    en: "Gift",
+    ja: "贈る花束",
+    widths: [480, 800, 1108],
+    tall: false,
+    pos: "pos-center",
+  },
+  {
+    src: dried,
+    alt: "ユーカリと青いシダ、黄色い小花のドライフラワーブーケ",
+    en: "Dried",
+    ja: "ドライの花束",
+    widths: [480, 900, 1440],
+    tall: false,
+    pos: "pos-center",
+  },
+  {
+    src: preserved,
+    alt: "パステルカラーのプリザーブドフラワーを詰めた小さな箱",
+    en: "Keep",
+    ja: "残す花",
+    widths: [400, 560, 675],
+    tall: false,
+    pos: "pos-center",
+  },
+  {
+    src: swag,
+    alt: "白い板に結んだ、ミモザとプロテアのドライスワッグ",
+    en: "Swag",
+    ja: "スワッグ",
+    widths: [400, 560, 675],
+    tall: false,
+    pos: "pos-swag",
+  },
+];
+---
+
+<section class="section gallery" id="gallery">
+  <div class="wrap gallery__head reveal">
+    <p class="eyebrow">03 — Gallery</p>
+    <h2>花は、束ねるだけではない。</h2>
+    <p>暮らしの卓上、祝いの席、壁にかける一房まで。</p>
+  </div>
+
+  <div class="wrap-wide gallery__grid">
+    {
+      photos.map((photo) => (
+        <figure class:list={["gallery__item", photo.tall && "gallery__item--tall"]}>
+          <Photo
+            src={photo.src}
+            alt={photo.alt}
+            sizes="(min-width: 1020px) 34vw, (min-width: 700px) 50vw, 100vw"
+            widths={photo.widths}
+            class:list={["gallery__frame", "frame--hover", photo.pos]}
+          />
+          <figcaption>
+            <span lang="en">{photo.en}</span>
+            <span>{photo.ja}</span>
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+</section>

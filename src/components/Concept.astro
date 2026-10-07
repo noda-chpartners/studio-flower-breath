@@ -1,0 +1,81 @@
+---
+import Photo from "./Photo.astro";
+import coastal from "../assets/images/coastal-still.jpg";
+
+const pillars = [
+  {
+    num: "01",
+    title: "その人らしさ",
+    text: "オーダーメイドの花選びとフラワーデザイン。型にはめず、贈る相手と置く場所から組み立てます。",
+  },
+  {
+    num: "02",
+    title: "暮らしから空間まで",
+    text: "ギフト、自宅、婚礼、店舗やイベントの装花まで。花の使い方を、まとめてご提案します。",
+  },
+  {
+    num: "03",
+    title: "花を、もっと近くに",
+    text: "併設する FLORAL CAFE at CHIGASAKI とともに、花を特別な日だけのものにしない場所でありたいと考えています。",
+  },
+];
+
+const services = [
+  "季節の生花",
+  "花束",
+  "アレンジメント",
+  "ウェディング",
+  "スタンド花",
+  "ドライフラワー",
+  "店舗・イベント装花",
+  "ガーデニング相談",
+  "花のレンタル",
+  "レッスン",
+];
+---
+
+<section class="section concept" id="concept">
+  <div class="wrap concept__head reveal">
+    <p class="eyebrow">01 — Concept</p>
+    <h2>湘南の時間に、<br />花を重ねる。</h2>
+  </div>
+
+  <div class="wrap concept__grid">
+    <div class="concept__body reveal">
+      <p>
+        茅ヶ崎の日常に寄り添うフラワーショップです。季節の生花や花束、アレンジメントをはじめ、ウェディングブーケや装花、店舗の装飾、ガーデニングのご相談、花のレンタルまで。お花を通して、いろいろな場面を整えます。
+      </p>
+      <p>
+        大切にしているのは、「その人らしさ」から始める花選びです。誰に渡すのか、どこに置くのか、どんな時間に寄り添うのか。決まった形に当てはめるのではなく、ひとつずつ組み立てます。
+      </p>
+      <ul class="service-line">
+        {services.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+    <figure class="concept__photo reveal">
+      <Photo
+        src={coastal}
+        alt="貝殻と白い珊瑚、青い紫陽花を器に寄せた湘南らしい静物"
+        sizes="(min-width: 980px) 42vw, 100vw"
+        widths={[480, 900, 1440]}
+        class="concept__frame"
+      />
+      <figcaption>
+        <span lang="en">Shonan</span>
+        <span>海の光を想う花</span>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="wrap pillars">
+    {
+      pillars.map((pillar) => (
+        <article class="pillar">
+          <p class="pillar__num">{pillar.num}</p>
+          <h3>{pillar.title}</h3>
+          <p>{pillar.text}</p>
+        </article>
+      ))
+    }
+  </div>
+</section>

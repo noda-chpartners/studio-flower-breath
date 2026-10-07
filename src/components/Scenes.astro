@@ -1,0 +1,83 @@
+---
+import Photo from "./Photo.astro";
+import gift from "../assets/images/gift-bouquet.jpg";
+import wedding from "../assets/images/pink-arrangement.jpg";
+import event from "../assets/images/ceremony-cherry.jpg";
+import home from "../assets/images/basket-arrangement.jpg";
+import lesson from "../assets/images/workshop.jpg";
+
+const scenes = [
+  {
+    src: gift,
+    alt: "お祝いの札を添えた、ピンクと白のギフト花束",
+    en: "Gift",
+    title: "ギフト・記念日",
+    text: "お祝いも、なんでもない日も。相手の好みから花を選びます。",
+    widths: [400, 560, 675],
+    pos: "",
+  },
+  {
+    src: wedding,
+    alt: "バラとカーネーションをたっぷり寄せた、淡いピンクのアレンジ",
+    en: "Wedding",
+    title: "ウェディング",
+    text: "ブーケと装花を、おふたりの式の空気に合わせて。",
+    widths: [400, 560, 675],
+    pos: "",
+  },
+  {
+    src: event,
+    alt: "桜の枝を広げた、祝いの席のテーブル装花",
+    en: "Space",
+    title: "店舗・イベント",
+    text: "入り口、展示、会食の卓。空間の印象を花で整えます。",
+    widths: [480, 900, 1440],
+    pos: "pos-event",
+  },
+  {
+    src: home,
+    alt: "バスケットに盛った、黄色とアプリコットの自宅用アレンジ",
+    en: "Home",
+    title: "自宅用",
+    text: "一輪でも、かご一杯でも。暮らしの中に花を置くご相談を。",
+    widths: [400, 560, 675],
+    pos: "",
+  },
+  {
+    src: lesson,
+    alt: "窓辺のテーブルで花を束ねる、レッスンの様子",
+    en: "Lesson",
+    title: "レッスン",
+    text: "花に触れる時間として、ワークショップを行っています。",
+    widths: [480, 825],
+    pos: "pos-lesson",
+  },
+];
+---
+
+<section class="section scenes" id="scenes">
+  <div class="wrap scenes__head reveal">
+    <p class="eyebrow">04 — Scenes</p>
+    <h2>花の置き場所は、<br />暮らしの数だけ。</h2>
+  </div>
+  <div class="wrap-wide scenes__grid">
+    {
+      scenes.map((scene) => (
+        <article class="scene">
+          <Photo
+            src={scene.src}
+            alt={scene.alt}
+            sizes="(min-width: 1180px) 18vw, (min-width: 760px) 46vw, 100vw"
+            widths={scene.widths}
+            class:list={["scene__frame", "frame--hover", scene.pos]}
+          />
+          <div class="scene__body">
+            <p class="scene__en" lang="en">{scene.en}</p>
+            <h3>{scene.title}</h3>
+            <p>{scene.text}</p>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>

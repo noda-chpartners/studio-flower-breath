@@ -1,0 +1,43 @@
+---
+import { site } from "../data/site";
+---
+
+<header class="header" data-header>
+  <a class="logo" href="#top">
+    <svg class="logo__mark" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M16 27.2V14.6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+      <path d="M16 17.2c-.2-3.7-3.3-6.3-7.2-5.6 0 3.8 3 6.4 7.2 5.6Z" fill="currentColor"></path>
+      <path d="M16.2 15.6c.5-3.6 3.8-6 7.4-5.1-.8 3.6-4 5.8-7.4 5.1Z" fill="#5F6B5C"></path>
+      <circle cx="16" cy="9.1" r="2.05" fill="currentColor"></circle>
+    </svg>
+    <span class="logo__text">
+      <span class="logo__name">{site.name}</span>
+      <span class="logo__kana">{site.kana}</span>
+    </span>
+  </a>
+
+  <button
+    class="nav-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="site-nav"
+    data-nav-toggle
+  >
+    <span class="sr-only">メニュー</span>
+    <span class="nav-toggle__lines" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-nav" id="site-nav" data-nav data-lenis-prevent>
+    <ul class="site-nav__list">
+      <li><a href="#concept">コンセプト</a></li>
+      <li><a href="#offer">お品書き</a></li>
+      <li><a href="#gallery">ギャラリー</a></li>
+      <li><a href="#scenes">シーン</a></li>
+      <li><a href="#visit">ご案内</a></li>
+    </ul>
+    <a class="btn btn--small" href={site.line} target="_blank" rel="noopener noreferrer">
+      LINEで相談
+      <span class="sr-only">（新しいタブで開きます）</span>
+    </a>
+  </nav>
+</header>
